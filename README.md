@@ -25,3 +25,17 @@ $ rbenv versions
   3.1.2
 $
 ```
+
+### Run
+```zsh
+$ bundle
+... 
+
+$ smashing -v   
+1.3.6
+
+$ smashing start
+2023-09-01 08:35:09 +0900 Thin web server (v1.8.2 codename Ruby Razor)
+2023-09-01 08:35:09 +0900 Maximum connections set to 1024
+2023-09-01 08:35:09 +0900 Listening on 0.0.0.0:3030, CTRL+C to stop
+```
