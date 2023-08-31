@@ -1,4 +1,8 @@
 # dashboad smashing docker ruby base
+
+![smashing reminds me of a spike in volleyball](https://i.ytimg.com/vi/fCrBs7aVqT8/maxresdefault.jpg)
+(smashing reminds me of a spike in volleyball)
+
 - I thought of dashing at the educational scene and found a nice fork.
 - Ruby is still an attractive language and in the new 3.x version, I want to create and deploy a docker with an easy installation where "smashing" works well. I've had a lot of help with other great open sources.
 - express one's appreciation to all.
