@@ -9,7 +9,33 @@
 
 🍽️ Check out http://smashing.github.io/smashing for more information.
 
-### Development & Testing in the following environments
+# Use
+- Configure and use docker files as shown below.
+- The image 'datamario24/ruby314notejs:1.0.3-smashing-new-bundle' in the FROM section is preset to the stack below.
+- ruby 3.1.4 , nodejs 18.13.0 , smashing 1.3.6
+- I hope there will be some savings in your time.
+```bash
+FROM datamario24/ruby314notejs:1.0.3-smashing-new-bundle
+
+ENV PORT=80
+ENV MAX_CONNS=30
+ENV MAX_PERSISTENT_CONN=1
+ENV THREADPOOL_SIZE=1
+
+WORKDIR /app
+
+COPY . .
+
+CMD smashing start -p ${PORT} \
+    --max-conns ${MAX_CONNS} \
+    --max-persistent-conn ${MAX_PERSISTENT_CONN} \
+    --threadpool-size ${THREADPOOL_SIZE}
+```
+
+# Development & Testing in the following environments
+- Under the docker folder, there is an image generated step by step.
+- If you're a simple user, you can skip the steps below. If you have a problem or want to improve, see the description below. It is open to send issues or PR at any time. You are very welcome.
+
 ```zsh
 $ sysctl -a | grep brand
 machdep.cpu.brand_string: Apple M1 Pro
@@ -27,9 +53,10 @@ $
 ```
 
 ### Run
+- Follow the steps below to test the development computer. 
+- See the [official guide](http://smashing.github.io/smashing) for a more detailed explanation.
 ```zsh
 $ bundle
-... 
 
 $ smashing -v   
 1.3.6
@@ -40,9 +67,9 @@ $ smashing start
 2023-09-01 08:35:09 +0900 Listening on 0.0.0.0:3030, CTRL+C to stop
 ```
 
-### Docker
+### Docker job
+- init multi-platform build
 ```zsh
-# init multi-platform build
 $ docker buildx create --name multiarch-builder --use
 Name:          multiarch-builder
 Driver:        docker-container
@@ -55,13 +82,26 @@ Status:    running
 Buildkit:  v0.12.1
 Platforms: linux/arm64, linux/amd64, linux/amd64/v2, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/mips64le, linux/mips64, linux/arm/v7, linux/arm/v6
 ```
+
+- multi-platform build & push
 ```zsh
-# multi-platform build & push
+$ docker buildx build -t datamario24/ruby314notejs:1.0.3-smashing-new-bundle \
+  --push \
+  --platform linux/arm64,linux/amd64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 \
+  -f docker/Dockerfile.ruby314notejs.smashing-new-bundle .
+  
 # https://hub.docker.com/r/datamario24/dashboad-smashing-docker-ruby-base/tags
 $ docker buildx build -t datamario24/dashboad-smashing-docker-ruby-base:1.0.0 \
   --push \
   --platform linux/arm64,linux/amd64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 \
   -f docker/Dockerfile .
+  
+ 
+```
+
+- create and start containers using docker hub images
+```zsh
+$ docker run -d --name smashing-default -p 7942:80 datamario24/dashboad-smashing-docker-ruby-base:1.0.0
 ```
 
 ### Ref
