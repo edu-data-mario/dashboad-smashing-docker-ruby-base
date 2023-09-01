@@ -39,3 +39,20 @@ $ smashing start
 2023-09-01 08:35:09 +0900 Maximum connections set to 1024
 2023-09-01 08:35:09 +0900 Listening on 0.0.0.0:3030, CTRL+C to stop
 ```
+
+### Docker
+```zsh
+$ docker build -t ruby314webrick:0.2.3 .
+$ docker run -d -p 6543:3456 --name ruby314webrick023 ruby314webrick:0.2.3
+$ docker ps
+#CONTAINER ID   IMAGE                  COMMAND                  CREATED         STATUS         PORTS                    NAMES
+#1a7cd24bb7b6   ruby314webrick:0.2.0   "/bin/sh -c 'ruby -r…"   7 seconds ago   Up 6 seconds   0.0.0.0:6543->3456/tcp   ruby314webrick
+```
+
+### Ref
+- https://www.ruby-lang.org/ko/news/2023/03/30/ruby-3-1-4-released/
+- https://github.com/macournoyer/thin
+- [x] https://github.com/ruby/webrick
+
+### Err
+- [failed to register layer: Error processing tar file(exit status 1): write /usr/local/lib/libruby.so.3.1.4: no space left on device](https://stackoverflow.com/questions/48814940/docker-pull-failed-to-register-layer-error-processing-tar-fileexit-status-1)
