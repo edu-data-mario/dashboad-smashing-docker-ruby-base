@@ -1,0 +1,5 @@
+.gitignore
+.dockerignore
+.idea
+Gemfile.lock
+logs/
