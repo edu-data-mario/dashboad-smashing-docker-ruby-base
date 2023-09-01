@@ -1,0 +1,22 @@
+FROM ruby:3.1.4
+
+ENV PORT=80
+ENV MAX_CONNS=30
+ENV MAX_PERSISTENT_CONN=1
+ENV THREADPOOL_SIZE=1
+
+RUN apt-get update && \
+    apt-get upgrade -yq && \
+    apt-get install -yq nodejs
+
+WORKDIR /app
+
+COPY . .
+
+RUN gem install smashing
+RUN bundle
+
+CMD smashing start -p ${PORT} \
+    --max-conns ${MAX_CONNS} \
+    --max-persistent-conn ${MAX_PERSISTENT_CONN} \
+    --threadpool-size ${THREADPOOL_SIZE}

@@ -1,0 +1,8 @@
+# datamario24/ruby314notejs:1.0.0
+FROM ruby:3.1.4
+
+RUN apt-get update && \
+    apt-get upgrade -yq && \
+    apt-get install -yq nodejs
+
+

@@ -42,17 +42,34 @@ $ smashing start
 
 ### Docker
 ```zsh
-$ docker build -t ruby314webrick:0.2.3 .
-$ docker run -d -p 6543:3456 --name ruby314webrick023 ruby314webrick:0.2.3
-$ docker ps
-#CONTAINER ID   IMAGE                  COMMAND                  CREATED         STATUS         PORTS                    NAMES
-#1a7cd24bb7b6   ruby314webrick:0.2.0   "/bin/sh -c 'ruby -r…"   7 seconds ago   Up 6 seconds   0.0.0.0:6543->3456/tcp   ruby314webrick
+# init multi-platform build
+$ docker buildx create --name multiarch-builder --use
+Name:          multiarch-builder
+Driver:        docker-container
+Last Activity: 2023-09-01 06:31:45 +0000 UTC
+
+Nodes:
+Name:      multiarch-builder0
+Endpoint:  unix:///var/run/docker.sock
+Status:    running
+Buildkit:  v0.12.1
+Platforms: linux/arm64, linux/amd64, linux/amd64/v2, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/mips64le, linux/mips64, linux/arm/v7, linux/arm/v6
+```
+```zsh
+# multi-platform build & push
+# https://hub.docker.com/r/datamario24/dashboad-smashing-docker-ruby-base/tags
+$ docker buildx build -t datamario24/dashboad-smashing-docker-ruby-base:1.0.0 \
+  --push \
+  --platform linux/arm64,linux/amd64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 \
+  -f docker/Dockerfile .
 ```
 
 ### Ref
 - https://www.ruby-lang.org/ko/news/2023/03/30/ruby-3-1-4-released/
 - https://github.com/macournoyer/thin
 - [x] https://github.com/ruby/webrick
+- [x] https://github.com/Smashing/smashing/wiki/Use-Docker-to-run-Smashing#dockerfile
+- [x] [멀티 플랫폼을 위한 Buildx 도커 이미지 빌드](https://gurumee92.tistory.com/311)
 
 ### Err
 - [failed to register layer: Error processing tar file(exit status 1): write /usr/local/lib/libruby.so.3.1.4: no space left on device](https://stackoverflow.com/questions/48814940/docker-pull-failed-to-register-layer-error-processing-tar-fileexit-status-1)
